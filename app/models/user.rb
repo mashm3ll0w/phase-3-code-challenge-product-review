@@ -8,4 +8,8 @@ class User < ActiveRecord::Base
       0
     ].product
   end
+
+  def remove_reviews(product)
+    self.reviews.select { |review| review.product == product }[0].destroy
+  end
 end
