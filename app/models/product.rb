@@ -14,4 +14,13 @@ class Product < ActiveRecord::Base
       "Please check the data types of your user/star_rating and/or comment"
     end
   end
+
+  def print_all_reviews
+    self
+      .reviews
+      .map do |review|
+        puts "Review for #{self.name} by #{review.user.name}: #{review.star_rating}. #{review.comment}"
+      end
+      .compact
+  end
 end
