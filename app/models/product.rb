@@ -23,4 +23,9 @@ class Product < ActiveRecord::Base
       end
       .compact
   end
+
+  def average_rating
+    self.reviews.map { |review| review.star_rating.to_f }.sum /
+      self.reviews.count
+  end
 end
