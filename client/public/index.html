@@ -14,55 +14,33 @@
 <body>
 
     <div class="container">
-        <div class="wrap-meal">
-            <div class="search-meal">
-                <h2 class="title">Search For Recipe's From Your Ingredients</h2>
-                <div class="search-meal-box">
-                    <input type="text" class="search-content" placeholder="Enter an Ingredient" id="search-input">
-                    <button type="submit" class="btn search-btn" id="search-btn">
-                        <i class="fas fa-search"></i>
+        <div id="root"></div>
+            <div class="wrap-meal">
+                <div class="search-meal">
+                    <h2 class="title">Search For Recipe's From Your Ingredients</h2>
+                    <div class="search-meal-box">
+                        <input type="text" class="search-content" placeholder="Enter an Ingredient" id="search-input">
+                        <button type="submit" class="btn search-btn" id="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="meal-result">
+                    <h2 class="title"> Recipe Ideas Results:</h2>
+                    <div id="meal">
+                    </div>
+                </div>
+                <div class="meal-details">
+                    <button type="button" class="btn recipe-close-btn" id="recipe-close-btn">
+                        <i class="fas fa-times"></i>
                     </button>
-                </div>
-            </div>
 
-            <div class="meal-result">
-                <h2 class="title"> Recipe Ideas Results:</h2>
-                <div id="meal">
-                    <!-- <div class="meal-item">
-                        <div class="meal-img">
-                            <img src="https://www.themealdb.com/images/media/meals/xxpqsy1511452222.jpg" alt="food">
-                        </div>
-                        <div class="meal-name">
-                            <h3>Matar Paneer</h3>
-                            <a href="#" class="recipe-btn">Get Recipe</a>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
-            <div class="meal-details">
-                <button type="button" class="btn recipe-close-btn" id="recipe-close-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-
-                <div class="meal-details-content">
-                    <!-- <h2 class="recipe-title"> Meals Name Here</h2>
-                    <p class="recipe-category">Category Name</p>
-                    <div class="recipe-instruct">
-                        <h3>Instructions</h3>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem maxime facilis dolores, doloribus architecto ea quo necessitatibus fugit consequatur rem!
-                        </p>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab, tempora.</p>
+                    <div class="meal-details-content">
                     </div>
-                    <div class="recipe-meal-img">
-                        <img src="https://www.themealdb.com/images/media/meals/xxpqsy1511452222.jpg" alt="food">
-                    </div>
-                    <div class="recipe-link">
-                        <a href="#" target="_blank">Watch Video</a>
-                    </div> -->
                 </div>
             </div>
         </div>
-    </div>
 
     <script src="./index.js"></script>
 </body>

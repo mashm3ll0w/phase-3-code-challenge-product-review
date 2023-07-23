@@ -26,7 +26,7 @@ function App() {
   };
 
   const fetchMeals = () => {
-    fetch(`${filterURL}${searchInputText}`)
+    fetch(`/recipes?ingredient=${searchInputText}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.meals) {

@@ -24,13 +24,18 @@ GEM
     diff-lcs (1.4.4)
     eventmachine (1.2.7)
     ffi (1.15.3)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     method_source (1.0.0)
+    mini_mime (1.1.2)
     minitest (5.14.4)
+    multi_xml (0.6.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     pry (0.14.1)
@@ -86,11 +91,13 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  ruby
   x86_64-darwin-19
 
 DEPENDENCIES
   activerecord (~> 6.1)
   database_cleaner (~> 2.0)
+  httparty
   pry (~> 0.14.1)
   rack-contrib (~> 2.3)
   rack-cors (~> 1.1)
