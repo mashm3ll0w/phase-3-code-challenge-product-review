@@ -6,7 +6,6 @@ require 'httparty'
 
 
 class ApplicationController < Sinatra::Base
-set :database, { adapter: 'sqlite3', database: 'db/development.db'}
 set :default_content_type, 'application/json'
   
   # Add your routes here
@@ -20,21 +19,46 @@ set :default_content_type, 'application/json'
     data = JSON.parse(response.body)
   
     # Process the API data and save it to your database
-    data['meals'].each do |meal|
-      Recipe.create(
+    ingredients = data['meals'].map do |meal|
+      recipe = Recipe.find_or_initialize_by(id_meal: meal['idMeal'])
+      recipe.assign_attributes(
         name: meal['strMeal'],
-        ingredients: meal['strIngredients1'],
-        instructions: meal['strInstructions'])
+        ingredients: extract_ingredients(meal),
+        instructions: meal['strInstructions'],
+        str_meal_thumb: meal['strMealthumb'],
+      )
+      recipe.save
+      recipe
     end
-  
-    { message: 'Data fetched and saved to the database.' }.to_json
+
+    { message: 'Data fetched and saved to the database.', 
+      ingredients: ingredients}.to_json
+  end
+
+
+  # Gibberish trial to get data to the db
+  def extract_ingredients(meal)
+    ingredients = []
+    (1..20).each do |i|
+      ingredient = meal["strIngredient#{i}"]
+      measure = meal["strMeasure#{i}"]
+      break if ingredient.nil? || ingredient.strip.empty?
+      ingredients << "#{measure} #{ingredient}"
+    end
+    ingredients.join(', ')
   end
 
   get "/recipes/:id" do 
   recipe = Recipe.find_by(id: params[:id])
 
   if recipe
-    recipe.to_json
+    {
+      id_meal: recipe.id_meal,
+      name: recipe.name,
+      ingredients: recipe.ingredients,
+      instructions: recipe.instructions,
+      str_meal_thumb: recipe.str_meal_thumb
+    }.to_json
   else
     status 404
     { error: 'Recipe not found' }.to_json
