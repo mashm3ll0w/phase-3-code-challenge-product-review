@@ -22,6 +22,7 @@ meals.each do |meal|
 end
 
 
+
 # def extract_ingredients(meal)
 #   ingredients = []
 #   (1..20).each do |i|
