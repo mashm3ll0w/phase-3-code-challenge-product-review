@@ -3,21 +3,42 @@ require 'json'
 
 puts "🌱 Seeding spices..."
 puts "Clearing existing seed..."
-# Recipe.destroy_all
+Recipe.destroy_all
 
 meals = ["chicken", "ham", "bacon", "rice", "beef", "pork"]
 meals.each do |meal|
   response = HTTParty.get("https://www.themealdb.com/api/json/v1/1/filter.php?i=#{meal}")
   data = JSON.parse(response.body)
-  puts "Seeding #{data}"
+  puts "Seeding #{meal}...."
+  puts "API response: #{data.inspect}"
+
+  begin
+  if data["meals"].nil?
+    puts "No seeds.... Skipping..."
+    next
+  end
+
   data["meals"].each do |innermeal|
     puts "Inner seeding +++++++++++++++++++++++++++++++++++++#{innermeal}..."
-    Recipe.create(
-    name: innermeal['strMeal'],
-    ingredients: meal,
-    instructions: innermeal['strInstructions'],
-    str_meal_thumb: innermeal['strMealThumb']
-  )
+    ingredients = []
+    (1..20).each do |i|
+      ingredient_name = innermeal["strIngredient#{i}"]
+      ingredient_measure = innermeal["strMeasure#{i}"]
+      break if ingredient_name.nil? || ingredient_name.strip.empty?
+      ingredients << "#{ingredient_measure} #{ingredient_name}"
+    end
+    
+
+    recipe = Recipe.create(
+      id: innermeal['idMeal'],
+      name: innermeal['strMeal'],
+      ingredients: ingredients,
+      instructions: innermeal['strInstructions'],
+      str_meal_thumb: innermeal['strMealThumb']
+    )
+    end
+  rescue StandardError => e
+    puts "Error while seeding #{meal}: #{e.message}"
   end
 end
 
