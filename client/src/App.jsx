@@ -40,6 +40,34 @@ function App() {
       });
   };
 
+
+
+  const handleSaveFavorite = (recipeId) => {
+    fetch(`/recipes/${recipeID}/favorite`, {
+      method: "POST",
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data.message);
+    })
+    .catch((error) => {
+      console.error("Error saving recipe as favorite:", error);
+    });
+  };
+
+  const handleUpdateNotes = (recipeId, notes) => {
+    fetch(`/recipes/${recipeId}/notes`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json", 
+      },
+      body: JSON.stringify({notes}),
+    })
+    .catch((error) => {
+      console.error("Error updating notes:", error);
+    });
+  };
+
   return (
     <div className="container">
       <div className="wrap-meal">
@@ -70,6 +98,23 @@ function App() {
             {selectedMeal && (
               <MealDetails meal={selectedMeal} onCloseRecipe={handleCloseRecipe} />
             )}
+            {selectedMeal && (
+            <button onClick={() => handleSaveFavorite(selectedMeal.id)}>
+              Save as Favorite
+            </button>
+          )}
+          {selectedMeal && (
+            <div>
+              <h3>Notes:</h3>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+              <button onClick={() => handleUpdateNotes(selectedMeal.id, notes)}>
+                Update Notes
+              </button>
+            </div>
+          )}
           </div>
         </div>
       </div>

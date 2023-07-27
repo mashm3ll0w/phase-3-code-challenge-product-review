@@ -13,13 +13,13 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/recipes" do 
-  ingredient = params[:ingredients]
+  ingredient = params[:ingredient]
   response = HTTParty.get("https://www.themealdb.com/api/json/v1/1/filter.php?i=#{ingredient}")
   data = JSON.parse(response.body)
   
   # Process the API data and save it to your database
   if data && data['meals'].is_a?(Array)
-    data['meals'].map do |meal|
+    data['meals'].each do |meal|
       recipe = Recipe.find_or_create_by(id: meal['idMeal'])
       recipe.update(
         name: meal['strMeal'],
@@ -81,5 +81,36 @@ end
   not_found do 
     status 404
     { error: "Not found" }.to_json
+  end
+
+
+  #Update operations
+
+  post "/recipes/:id/favorites" do
+    recipe = Recipe.find_by(id params[:id])
+
+    if recipe
+      favorite = Favorite.find_or_create_by(recipe_id: recipe.id)
+      favorite.save
+
+      {message: "Recipe saved as favorite."}.to_json
+    else
+      status 404
+      {error: "Recipe not found."}.to_json
+    end
+  end
+
+  put "/recipes/:id/notes" do
+    recipe = Recipe.find_by(id: params[:id])
+
+    if recipe
+      note = Note.find_or_create_by(recipe_id: recipe.id)
+      note.update(notes: params[:notes])
+
+      {message: "Notes updated successfully."}.to_json
+    else
+      status 404
+      {error: "Recipe not found."}.to_json
+    end
   end
 end
