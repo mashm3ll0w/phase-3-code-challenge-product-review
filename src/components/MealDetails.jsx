@@ -3,11 +3,22 @@ import React from "react";
 function MealDetails({ meal, onCloseRecipe }) {
   return (
     <div className="meal-details-content">
-      <h2 className="recipe-title">{meal.strMeal}</h2>
-      <p className="recipe-category">{meal.strCategory}</p>
+      <h2 className="recipe-title">{meal.name}</h2>
+      <p className="recipe-category">{meal.notes}</p>
+      <div className="recipe-instruct">
+        <h3>Ingredient</h3>
+        <ol>
+
+        {meal.ingredients.map(item => (
+          <li key={item.id}>{item.name}</li>
+          ))}
+          </ol>
+      </div>
       <div className="recipe-instruct">
         <h3>Instructions</h3>
-        <p>{meal.strInstructions}</p>
+        {meal.instructions.map(item => (
+          <p key={item.id}>{item.content}</p>
+        ))}
       </div>
       <div className="recipe-meal-img">
         <img src={meal.strMealThumb} alt="food" />

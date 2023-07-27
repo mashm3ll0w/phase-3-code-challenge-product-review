@@ -11,7 +11,7 @@ function App() {
   const [notes, setNotes] = useState("");
 
   const handleInputChange = (e) => {
-    setSearchInputText(e.target.value.trim());
+    setSearchInputText(e.target.value);
   };
 
   const handleSearchClick = () => {
@@ -27,7 +27,6 @@ function App() {
   };
 
   const fetchMeals = () => {
-    console.log(searchInputText);
     fetch(`/recipes?ingredient=${searchInputText}`)
       .then((res) => res.json())
       .then((data) => {
@@ -41,15 +40,20 @@ function App() {
       });
   };
 
-
-
   const handleSaveFavorite = (recipeId) => {
-    fetch(`/recipes/${recipeId}/favorite`, {
+    fetch(`/recipes/${recipeId}/favorites`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        recipeId: recipeId
+      })
     })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data.message);
+      console.log(data);
     })
     .catch((error) => {
       console.error("Error saving recipe as favorite:", error);
@@ -60,7 +64,7 @@ function App() {
     fetch(`/recipes/${recipeId}/notes`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json", 
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({notes}),
     })
@@ -100,7 +104,7 @@ function App() {
               <MealDetails meal={selectedMeal} onCloseRecipe={handleCloseRecipe} />
             )}
             {selectedMeal && (
-            <button onClick={() => handleSaveFavorite(selectedMeal.id)}>
+            <button className="recipe-btn noise_btn--bg" onClick={() => handleSaveFavorite(selectedMeal.id)}>
               Save as Favorite
             </button>
           )}
@@ -111,7 +115,7 @@ function App() {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
               />
-              <button onClick={() => handleUpdateNotes(selectedMeal.id, notes)}>
+              <button className="recipe-btn noise_btn--bg" onClick={() => handleUpdateNotes(selectedMeal.id, notes)}>
                 Update Notes
               </button>
             </div>

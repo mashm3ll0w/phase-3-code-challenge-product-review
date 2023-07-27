@@ -6,7 +6,7 @@ function MealList({ meals, onRecipeBtnClick }) {
       {meals.map((meal) => (
         <div key={meal.idMeal} className="meal-item">
           <div className="meal-img">
-            <img src={meal.strMealThumb} alt="food" />
+            <img src={meal.str_meal_thumb} alt={meal.name} />
           </div>
           <div className="meal-name">
             <h3>{meal.strMeal}</h3>
