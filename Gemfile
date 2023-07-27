@@ -40,6 +40,7 @@ group :development do
 
 
 gem 'httparty'
+gem 'pg'
 
 
   # Automatically reload when there are changes

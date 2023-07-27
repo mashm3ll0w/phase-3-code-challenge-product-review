@@ -16,3 +16,6 @@
 
 # Canvas-specific .results.json
 .results.json
+
+# Ignore the frontend folder 
+/client/*
