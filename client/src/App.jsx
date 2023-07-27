@@ -8,6 +8,7 @@ function App() {
   const [meals, setMeals] = useState([]);
   const [notFound, setNotFound] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState(null);
+  const [notes, setNotes] = useState("");
 
   const handleInputChange = (e) => {
     setSearchInputText(e.target.value.trim());
@@ -30,8 +31,8 @@ function App() {
     fetch(`/recipes?ingredient=${searchInputText}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.meals) {
-          setMeals(data.meals);
+        if (data.length > 0) {
+          setMeals(data);
           setNotFound(false);
         } else {
           setMeals([]);
@@ -43,7 +44,7 @@ function App() {
 
 
   const handleSaveFavorite = (recipeId) => {
-    fetch(`/recipes/${recipeID}/favorite`, {
+    fetch(`/recipes/${recipeId}/favorite`, {
       method: "POST",
     })
     .then((res) => res.json())
