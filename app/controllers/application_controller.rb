@@ -6,21 +6,20 @@ require 'httparty'
 
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
-  
+
   # Add your routes here
   get "/" do
     { message: "Good luck with your project!" }.to_json
   end
 
-  get "/recipes" do 
+  get "/recipes" do
   ingredient = params[:ingredient]
   recipes = Recipe.where("name LIKE ?", "%#{ingredient}%")
   recipes.to_json
   end
-end
 
 
-  get "/recipes/:id" do 
+  get "/recipes/:id" do
     recipe = Recipe.find_by(id: params[:id])
 
     if recipe
@@ -37,7 +36,7 @@ end
     end
   end
 
-  get "/recipes/:id/video" do 
+  get "/recipes/:id/video" do
     recipe = Recipe.find_by(id_meal: params[:id])
 
     if recipe
@@ -49,7 +48,7 @@ end
     end
   end
 
-  not_found do 
+  not_found do
     status 404
     { error: "Not found" }.to_json
   end
@@ -58,17 +57,9 @@ end
   #Update operations
 
   post "/recipes/:id/favorites" do
-    recipe = Recipe.find_by(id: params[:id])
-
-    if recipe
-      favorite = Favorite.find_or_create_by(recipe_id: recipe.id)
+      favorite = Favourite.create(recipes_id: params[:recipeId])
       favorite.save
-
-      {message: "Recipe saved as favorite."}.to_json
-    else
-      status 404
-      {error: "Recipe not found."}.to_json
-    end
+      favorite.to_json
   end
 
   put "/recipes/:id/notes" do
@@ -84,3 +75,4 @@ end
       {error: "Recipe not found."}.to_json
     end
   end
+end
